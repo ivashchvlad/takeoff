@@ -10,5 +10,25 @@
       "password": "$2a$10$zIpEZCr2RL59TdU00o/wXOeWEtfTE9x/CQv8dY/TRSWxo3a71qngi",
       "id": 2
     }
+  ],
+  "contacts": [
+    {
+      "id": "1",
+      "name": "good guy",
+      "organization": "good company",
+      "phoneNumber": "+79999999999"
+    },
+    {
+      "id": "2",
+      "name": "Slothtrop",
+      "organization": "Special Operations Executive",
+      "phoneNumber": "+79999999999"
+    },
+    {
+      "id": "uxSC7Fi",
+      "name": "new dog",
+      "organization": "dogge org",
+      "phoneNumber": "9888889999"
+    }
   ]
 }

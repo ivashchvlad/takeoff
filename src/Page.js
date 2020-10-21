@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom'
 
 const Page = props => {
     useEffect(() => {
-        document.title = "TeamTomato | " + props.title;
+        document.title = "Takeoff | " + props.title;
     });
 
     const { title, ...rest } = props;
