@@ -5,6 +5,22 @@ import Contact from './Contact'
 
 import TextField from '@material-ui/core/TextField';
 
+import { makeStyles } from '@material-ui/core/styles'
+
+const useStyles = makeStyles((theme) => ({
+    contacts: {
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: 50,
+    },
+    search: {
+        width: 345,
+        marginBottom: 20,
+    }
+}));
+
 export default function Contacts() {
     const [contacts, setContacts] = useState([])
     const [search, setSearch] = useState('');
@@ -12,6 +28,8 @@ export default function Contacts() {
     useEffect(() => {
         update();
     }, [])
+
+    const classes = useStyles();
 
     const update = () => {
         contactsService.getContacts().then(res => setContacts(res))
@@ -28,13 +46,14 @@ export default function Contacts() {
     }
 
     return (
-        <div>
-            <TextField id="outlined-search" label="Search field" type="search" 
+        <div className={classes.contacts}>
+            <TextField id="outlined-search" label="Search field" type="search"
+                className={classes.search} 
                 variant="outlined" 
                 value={search}
                 onChange={e => setSearch(e.target.value)}
             />
-            {contacts.length && contacts.filter(searchFilter).map(contact => (
+            {!!contacts.length && contacts.filter(searchFilter).map(contact => (
                 <Contact contact={contact} update={update} key={contact.id}/>
             ))}
             <AddContact update={update} />

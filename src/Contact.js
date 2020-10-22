@@ -6,17 +6,18 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardActions from '@material-ui/core/CardActions'
 import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
 import Avatar from '@material-ui/core/Avatar'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
+import DeleteIcon from '@material-ui/icons/Delete'
+import EditIcon from '@material-ui/icons/Edit'
 
 const useStyles = makeStyles({
-    root: {
-        maxWidth: 345,
-    },
+    contact: {
+        width: 345,
+        marginBottom: 20
+    }
 });
 
 export default function Contact({ contact, update }) {
@@ -36,17 +37,12 @@ export default function Contact({ contact, update }) {
     }
 
     return (
-        <Card className={classes.root} key={contact.id}>
+        <Card className={classes.contact} key={contact.id}>
             <CardHeader
                 avatar={
-                    <Avatar aria-label="recipe" className={classes.avatar}>
+                    <Avatar aria-label="contact" className={classes.avatar} color="primary">
                         {contact.name[0]}
                     </Avatar>
-                }
-                action={
-                    <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                    </IconButton>
                 }
                 title={contact.name}
                 subheader={contact.organization}
@@ -81,6 +77,7 @@ export default function Contact({ contact, update }) {
                         contactsService.deleteContact(contact.id).then(res => update())
                     }}
                 >
+                    <DeleteIcon />
                     delete
                 </Button>
                 <Button 
@@ -88,6 +85,7 @@ export default function Contact({ contact, update }) {
                     color="primary" 
                     onClick={handleChange}
                 >
+                    <EditIcon />
                     { changeMode? "save changes" : "change"}
                 </Button>
             </CardActions>

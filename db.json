@@ -25,6 +25,18 @@
       "phoneNumber": "+79999999999"
     },
     {
+      "id": "3",
+      "name": "nice guy",
+      "organization": "nice company",
+      "phoneNumber": "+79999999999"
+    },
+    {
+      "id": "4",
+      "name": "bad guy",
+      "organization": "bad company",
+      "phoneNumber": "+79999999666"
+    },
+    {
       "id": "uxSC7Fi",
       "name": "new dog",
       "organization": "dogge org",
