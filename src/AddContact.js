@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import contactsService from './contactsService'
+import ContactInputForm from './ContactInputForm'
+//MUI
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import TextField from '@material-ui/core/TextField'
@@ -23,10 +25,6 @@ const useStyles = makeStyles((theme) => ({
         padding: 10,
         paddingBottom: 80
     },
-    input: {
-        margin: '5px 0 5px 0',
-        width: '100%',
-    },
     fab: {
         position: 'absolute',
         bottom: 10,
@@ -35,73 +33,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AddContact({ update }) {
-    const [name, setName] = useState('')
-    const [nameError, setNameError] = useState('')
-    const [organization, setOrganization] = useState('')
-    const [organizationError, setOrganizationError] = useState('')
-    const [phoneNumber, setPhoneNumber] = useState('')
-    const [phoneNumberError, setPhoneNumberError] = useState('')
+    const [isValid, setIsValid] = useState(false);
+    const [submit, setSubmit] = useState()
 
     const classes = useStyles();
 
     const handleClick = () => {
-        if (!validate()) return;
-        contactsService.addContact({ name, organization, phoneNumber }).then(res =>
+        /*if (!isValid) return;
+        contactsService.addContact(contact).then(res =>
             update()
-        )
-        setName('')
-        setOrganization('')
-        setPhoneNumber('')
-    }
-
-    const validate = () => {
-        let valid = true;
-        if (!name) {
-            setNameError("Name can't be empty")
-            valid = false
-        } else if (name.length > 20) {
-            setNameError("Name should be less than 20 ch.")
-            valid = false
-        }else setNameError('')
-
-        if (!organization) {
-            setOrganizationError("Organization can't be empty")
-            valid = false
-        } else if (organization.length > 20) {
-            setOrganizationError("Org. should be less than 20 ch.")
-            valid = false
-        } else setOrganizationError('')
-
-        if (!phoneNumber) {
-            setPhoneNumberError("Phone nuber can't be empty")
-            valid = false
-        } else if (phoneNumber.length > 10) {
-            setPhoneNumberError("PhoneNumber be less than 10 ch.")
-            valid = false
-        } else setPhoneNumberError('')
-        return valid
+        )*/
+        setSubmit(submit => !submit)
     }
 
     return (
         <Paper elevation={3} className={classes.paper}>
             <form className={classes.form} noValidate autoComplete="off">
-                <TextField id="name" label="Name" className={classes.input}
-                    value={name}
-                    onChange={e => setName(e.target.value)}
-                    error={!!nameError}
-                    helperText={nameError}
-                />
-                <TextField id="organization" label="Organization" className={classes.input}
-                    value={organization}
-                    onChange={e => setOrganization(e.target.value)}
-                    error={!!organizationError}
-                    helperText={organizationError}
-                />
-                <TextField id="phoneNumber" label="Phone Number" className={classes.input}
-                    value={phoneNumber}
-                    onChange={e => setPhoneNumber(e.target.value)}
-                    error={!!phoneNumberError}
-                    helperText={phoneNumberError}
+                <ContactInputForm 
+                    submit={submit} 
+                    postContact={contactsService.addContact}
+                    update={update}
                 />
                 <Fab color="primary"
                     className={classes.fab}
