@@ -1,5 +1,5 @@
-import React from 'react'
-import auth from './auth'
+import React, {useContext} from 'react'
+import auth, { AuthContext } from './auth'
 //MUI staff
 import { createStyles, makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
@@ -24,20 +24,24 @@ const useStyles = makeStyles(theme =>
     }));
 
 function Navbar() {
-    const classes = useStyles({});
-    const history = useHistory();
+    
+    const {user, setUser} = useContext(AuthContext);
+
+    const classes = useStyles({})
+    const history = useHistory()
 
     const handleGoBack = (e) => {
-        e.preventDefault();
-        history.goBack();
+        e.preventDefault()
+        history.goBack()
     }
 
     const handleLogin = (e) => {
-        e.preventDefault();
-        if (!auth.isLoggedIn()) {
-            auth.logout(); 
-            history.push('/');
-        } else history.push('/login');
+        e.preventDefault()
+        if (user) {
+            auth.logout()
+            setUser(undefined)
+            history.push('/')
+        } else history.push('/login')
     }
 
     return (
@@ -49,9 +53,12 @@ function Navbar() {
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>
                         TakeOff
-
                     </Typography>
-                    <Button color="inherit" onClick={handleLogin}>{auth.isLoggedIn() ? 'Logout' : 'Login'}</Button>
+                    <Button color="inherit" 
+                        onClick={handleLogin}
+                    >
+                        {user ? 'Logout' : 'Login'}
+                    </Button>
                 </Toolbar>
             </AppBar>
         </div>

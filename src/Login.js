@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import auth from './auth'
+import React, { useState, useContext } from 'react'
+import auth, { AuthContext } from './auth'
 //  MIU
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
@@ -40,23 +40,27 @@ const useStyles = makeStyles(theme => ({
 
 // Login Component
 function Login({ history }) {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const { user, setUser } = useContext(AuthContext)
 
     function handleOnClick(e) {
         e.preventDefault();
-        if(auth.isLoggedIn()) { auth.logout(); return; }
-        if (email && password) {
-            auth.login(
-                email,
-                password
-            ).then(() => {
-                console.log('go main');
-                history.push('/');
-            }).catch(e => console.log(e))
+        if (user) {
+            setUser(undefined)
+            auth.logout()
             return;
         }
+        if (email && password) {
+            auth.login(email, password)
+                .then(res => {
+                    setUser(res)
+                    history.push('/')
+                })
+        }
     }
+
     function handleChange(e) {
         switch (e.target.name) {
             case 'email':
@@ -107,7 +111,7 @@ function Login({ history }) {
                         value={password}
                         onChange={handleChange}
                     />
-                    
+
                     <Button
                         type="submit"
                         fullWidth
@@ -116,7 +120,7 @@ function Login({ history }) {
                         className={classes.submit}
                         onClick={handleOnClick}
                     >
-                        {auth.isLoggedIn() ?  'Log out' : 'Sign In'}
+                        {user ? 'Log out' : 'Sign In'}
                     </Button>
                     <Grid container>
                         <Grid item>

@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import auth from './auth'
+import React, { useState, useContext } from 'react'
+import auth, { AuthContext } from './auth'
 //  MUI
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
@@ -46,6 +46,8 @@ export function SignUp({ history }) {
     const [lastName, SetLastName] = useState('');
     const [errors, SetErrors] = useState('');
 
+    const { setUser } = useContext(AuthContext);
+
     function handleOnChange(e) {
         switch (e.target.name) {
             case 'email':
@@ -73,8 +75,8 @@ export function SignUp({ history }) {
             email,
             password
         )
-            .then(data => {
-                console.log(data)
+            .then(res => {
+                setUser(res)
                 history.push('/')
             })
             .catch(err => {

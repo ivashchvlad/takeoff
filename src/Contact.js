@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import contactsService from './contactsService'
+import { withContactInputForm } from './ContactInputForm'
 //MUI
 import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
@@ -9,7 +10,6 @@ import Button from '@material-ui/core/Button'
 import Avatar from '@material-ui/core/Avatar'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
-import TextField from '@material-ui/core/TextField'
 import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
 
@@ -20,20 +20,17 @@ const useStyles = makeStyles({
     }
 });
 
-export default function Contact({ contact, update }) {
+function Contact({ contact, update, children, submit }) {
     const [changeMode, setChangeMode] = useState(false)
-    const [name, setName] = useState(contact.name)
-    const [organization, setOrganization] = useState(contact.organization)
-    const [phoneNumber, setPhoneNumber] = useState(contact.phoneNumber)
 
     const classes = useStyles();
 
     const handleChange = () => {
         if(changeMode) {
-            contactsService.updateContact({id: contact.id, name, organization, phoneNumber})
-            .then(res => update())
-            setChangeMode(false)
-        } else setChangeMode(true);
+            if(submit(contactsService.updateContact)) { setChangeMode(false); }
+        } else { 
+            setChangeMode(true)
+        };
     }
 
     return (
@@ -49,24 +46,13 @@ export default function Contact({ contact, update }) {
             />
             <CardContent>
                 {
-                    changeMode ? (<>
-                        <TextField id="change-name" label="Name" 
-                            value={name} 
-                            onChange={e => setName(e.target.value)} 
-                        />
-                        <TextField id="change-organization" label="Organization" 
-                            value={organization}
-                            onChange={e => setOrganization(e.target.value)} 
-                        />
-                        <TextField id="change-phoneNumber" label="Phone Number"
-                            value={phoneNumber}
-                            onChange={(e) => setPhoneNumber(e.target.value)}
-                        />
-                    </>) : (
-                            <Typography variant="h5" color="textPrimary" component="h5">
-                                {contact.phoneNumber}
-                            </Typography>
-                        )
+                    changeMode ? (
+                        children
+                    ) : (
+                        <Typography variant="h5" color="textPrimary" component="h5">
+                            {contact.phoneNumber}
+                        </Typography>
+                    )
                 }
             </CardContent>
             <CardActions>
@@ -74,7 +60,8 @@ export default function Contact({ contact, update }) {
                     size="small"
                     color="secondary"
                     onClick={() => {
-                        contactsService.deleteContact(contact.id).then(res => update())
+                        contactsService.deleteContact(contact.id)
+                            .then(res => update())
                     }}
                 >
                     <DeleteIcon />
@@ -86,9 +73,11 @@ export default function Contact({ contact, update }) {
                     onClick={handleChange}
                 >
                     <EditIcon />
-                    { changeMode? "save changes" : "change"}
+                    { changeMode ? "save changes" : "change"}
                 </Button>
             </CardActions>
         </Card>
     )
 }
+
+export default withContactInputForm(Contact)

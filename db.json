@@ -13,16 +13,10 @@
   ],
   "contacts": [
     {
-      "id": "1",
-      "name": "good guy",
-      "organization": "good company",
-      "phoneNumber": "+79999999999"
-    },
-    {
-      "id": "2",
       "name": "Slothtrop",
       "organization": "Special Operations Executive",
-      "phoneNumber": "+79999999999"
+      "phoneNumber": "+79999999999",
+      "id": "2"
     },
     {
       "id": "3",
@@ -31,22 +25,22 @@
       "phoneNumber": "+79999999999"
     },
     {
-      "id": "4",
       "name": "bad guy",
       "organization": "bad company",
-      "phoneNumber": "+79999999666"
+      "phoneNumber": "+79999999666",
+      "id": "4"
     },
     {
-      "id": "uxSC7Fi",
       "name": "new dog",
       "organization": "dogge org",
-      "phoneNumber": "9888889999"
+      "phoneNumber": "+988888999",
+      "id": "uxSC7Fi"
     },
     {
-      "name": "nn",
-      "organization": "nnn",
-      "phoneNumber": "0000",
-      "id": "J-jEzMa"
+      "name": "123",
+      "organization": "123",
+      "phoneNumber": "123",
+      "id": "62ZfjLL"
     }
   ]
 }
