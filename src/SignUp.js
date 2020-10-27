@@ -70,7 +70,6 @@ export function SignUp({ history }) {
 
     function createUserwithCredentials(e) {
         e.preventDefault();
-        console.log('fetchdata');
         auth.signup(
             email,
             password

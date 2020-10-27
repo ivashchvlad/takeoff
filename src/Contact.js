@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import contactsService from './contactsService'
 import { withContactInputForm } from './ContactInputForm'
 //MUI
@@ -28,7 +28,7 @@ function Contact({ contact, update, children, submit }) {
     const handleChange = () => {
         if(changeMode) {
             if(submit(contactsService.updateContact)) { setChangeMode(false); }
-        } else { 
+        } else {
             setChangeMode(true)
         };
     }

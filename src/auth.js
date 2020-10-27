@@ -1,5 +1,6 @@
 import axios from "axios"
 import React from 'react'
+import jwtDecode from 'jwt-decode'
 
 const API_URL = "http://localhost:3001/"
 
@@ -30,10 +31,10 @@ class Authentification {
         return !!JSON.parse(localStorage.getItem("user"))
     }
     getJWT() {
-        return this.isLoggedIn() ? 
-            JSON.parse(localStorage.getItem("user")).accessToken :
+        return this.isLoggedIn() ?
+            jwtDecode(JSON.parse(localStorage.getItem("user")).accessToken) :
             null
-    } 
+    }
 }
 
 export const AuthContext = React.createContext({})

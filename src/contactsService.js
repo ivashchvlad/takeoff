@@ -1,4 +1,5 @@
 import axios from 'axios'
+import auth from './auth'
 
 const API_URL = "http://localhost:3001/contacts/"
 
@@ -10,13 +11,13 @@ class ContactsService {
     }
 
     addContact(contact) {
-        return axios.post(API_URL, {...contact})
+        return axios.post(API_URL, {...contact, userId: auth.getJWT().sub})
             .then(res => res.data)
             .catch(e => console.log(e));
     }
 
     updateContact(contact) {
-        return axios.put(API_URL+contact.id, {...contact})
+        return axios.put(API_URL+contact.id, {...contact, userId: auth.getJWT().sub})
             .then(res => res.data)
             .catch(e => console.log(e));
     }

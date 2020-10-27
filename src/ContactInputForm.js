@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import TextField from '@material-ui/core/TextField'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -11,9 +11,9 @@ const useStyles = makeStyles(() => ({
 
 export function withContactInputForm(Component) {
     function ContactInputForm(props) {
-        const [name, setName] = useState(props.contact? props.contact.name : '')
+        const [name, setName] = useState(props.contact ? props.contact.name : '')
         const [nameError, setNameError] = useState('')
-        const [organization, setOrganization] = useState(props.contact ? props.contact.organization :'')
+        const [organization, setOrganization] = useState(props.contact ? props.contact.organization : '')
         const [organizationError, setOrganizationError] = useState('')
         const [phoneNumber, setPhoneNumber] = useState(props.contact ? props.contact.phoneNumber : '')
         const [phoneNumberError, setPhoneNumberError] = useState('')
@@ -26,15 +26,16 @@ export function withContactInputForm(Component) {
             validatePhoneNumber(phoneNumber)
             if (nameError || organizationError || phoneNumberError) return false;
             postContact({
-                name, 
-                organization, 
-                phoneNumber, 
+                name,
+                organization,
+                phoneNumber,
                 id: props.contact ? props.contact.id : null,
-            })
-            setName('')
-            setOrganization('')
-            setPhoneNumber('')
-            props.update()
+            }).then(res => props.update())
+            if (!props.contact) {
+                setName('')
+                setOrganization('')
+                setPhoneNumber('')
+            }
             return true
             // eslint-disable-next-line react-hooks/exhaustive-deps
         }
@@ -77,13 +78,13 @@ export function withContactInputForm(Component) {
         const validatePhoneNumber = (phoneNumber) => {
             if (!phoneNumber) {
                 setPhoneNumberError("Phone nuber can't be empty")
-            } else if (phoneNumber.length > 11) {
+            } else if (phoneNumber.length > 12) {
                 setPhoneNumberError("PhoneNumber should be less than 11 ch.")
             } else setPhoneNumberError('')
         }
 
         return (
-            <Component {...props} 
+            <Component {...props}
                 submit={submiting}
             >
                 <TextField id="name" label="Name" name="name"
